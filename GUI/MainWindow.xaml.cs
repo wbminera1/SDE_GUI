@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading;
 using System.Windows;
+using System.Windows.Media;
 
 namespace SDE_GUI
 {
@@ -19,6 +20,7 @@ namespace SDE_GUI
         private GDBRemoteSerialProtocol m_GDBRSP = new GDBRemoteSerialProtocol();
         private DebugConsole m_DebugConsole;
         private Thread m_ProcessThread;
+        private Proxy m_Proxy;
 
         public MainWindow()
         {
@@ -34,15 +36,14 @@ namespace SDE_GUI
                 m_Settings.Save();
             }
 
-            m_ProcessThread = new Thread(RunProcess);
-            m_ProcessThread.Start();
+            Proxy.OnSwitched = OnProxySwitched;
+            //m_ProcessThread = new Thread(RunProcess);
+            //m_ProcessThread.Start();
         }
-
         protected override void OnClosing(CancelEventArgs e)
         {
             m_ProcessAsync.Kill();
         }
-
         private void RunProcess()
         {
             string fullPath = "";
@@ -58,7 +59,6 @@ namespace SDE_GUI
             }
             m_ProcessAsync.Run(fullPath, fullArgs, new DataReceivedEventHandler(ProcessOutputHandler));
         }
-
         private void ProcessOutputHandler(object sendingProcess, DataReceivedEventArgs outLine)
         {
             if (!String.IsNullOrEmpty(outLine.Data))
@@ -70,12 +70,15 @@ namespace SDE_GUI
                     {
                         string portStr = outLine.Data.Substring(portIdx);
                         m_Port = Int32.Parse(portStr);
-                        m_Client.StartClient(m_Port, DataReceiveCallback);
+                        m_Client.Start("127.0.0.1",m_Port, DataReceiveCallback, ConnectCallback);
                     }
                 }
             }
         }
+        private void ConnectCallback(bool success)
+        {
 
+        }
         private void DataReceiveCallback(byte[] result, int bytesRead)
         {
             m_DebugConsole.WriteLineAsString(result, bytesRead);
@@ -83,11 +86,9 @@ namespace SDE_GUI
             if(response != null)
             {
                 m_DebugConsole.WriteLineAsString(response);
-                m_Client.Send(response);
+                m_Client.Send(response, bytesRead);
             }
         }
-
-
         private void MenuItem_Click_Open(object sender, RoutedEventArgs e)
         {
 
@@ -104,12 +105,6 @@ namespace SDE_GUI
         {
             GUI.Settings win2 = new GUI.Settings();
             win2.ShowDialog();
-            /*
-            if (m_Settings.SetSDEPath())
-            {
-                m_Settings.Save();
-            }
-            */
         }
         private void MenuItem_Click_Quit(object sender, RoutedEventArgs e)
         {
@@ -118,28 +113,50 @@ namespace SDE_GUI
         private void qSupported_Click(object sender, RoutedEventArgs e)
         {
             byte[] cmd = m_GDBRSP.qSupported();
-            m_Client.Send(cmd);
+            m_Client.Send(cmd, cmd.Length);
         }
         private void eRegisters_Click(object sender, RoutedEventArgs e)
         {
             byte[] cmd = m_GDBRSP.eRegisters();
-            m_Client.Send(cmd);
+            m_Client.Send(cmd, cmd.Length);
         }
         private void eRegister_Click(object sender, RoutedEventArgs e)
         {
             byte[] cmd = m_GDBRSP.eRegister("eax");
-            m_Client.Send(cmd);
+            m_Client.Send(cmd, cmd.Length);
         }
         private void eStepSingle_Click(object sender, RoutedEventArgs e)
         {
             byte[] cmd = m_GDBRSP.eStepSingle();
-            m_Client.Send(cmd);
+            m_Client.Send(cmd, cmd.Length);
         }
         private void eReason_Click(object sender, RoutedEventArgs e)
         {
             byte[] cmd = m_GDBRSP.eReason();
-            m_Client.Send(cmd);
+            m_Client.Send(cmd, cmd.Length);
         }
-
+        private void eCmd_Click(object sender, RoutedEventArgs e)
+        {
+            string cmdTxt = CommandText.Text;
+            byte[] cmd = GDBRemoteSerialProtocol.MakeCommand(cmdTxt);
+            m_Client.Send(cmd, cmd.Length);
+        }
+        bool OnProxySwitched(bool newState)
+        {
+            if (newState && m_Proxy == null)
+            {
+                m_Proxy = new Proxy("127.0.0.1", Int32.Parse(ProxyFrom.Text), "127.0.0.1", Int32.Parse(ProxyTo.Text));
+                m_Proxy.SetDebugOutput(m_DebugConsole);
+                m_Proxy.Start();
+                return true;
+            }
+            if (!newState && m_Proxy != null)
+            {
+                m_Proxy.Stop();
+                //m_Proxy = null;
+                return true;
+            }
+            return false;
+        }
     }
 }

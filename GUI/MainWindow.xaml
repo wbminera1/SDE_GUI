@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SDE_GUI"
+        xmlns:local="clr-namespace:SDE_GUI.GUI"
         mc:Ignorable="d"
         Title="MainWindow" Height="768" Width="1024">
     <Grid>
@@ -24,6 +24,12 @@
         <Button x:Name="StepSingle" Content="StepSingle" Width="100" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Click="eStepSingle_Click" Margin="325,51,0,0"/>
         <Button x:Name="Reason" Content="Reason" Width="100" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Click="eReason_Click" Margin="430,51,0,0"/>
         <Button x:Name="Register" Content="Register" Width="100" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Click="eRegister_Click" Margin="115,86,0,0"/>
-        <TextBox x:Name="DebugConsoleText" HorizontalAlignment="Left" Height="199" Margin="5,512,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="996"/>
+        <Button x:Name="Command" Content="Command" Width="100" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Click="eCmd_Click" Margin="10,300,0,0"/>
+        <TextBox x:Name="CommandText" HorizontalAlignment="Left" Height="30" Margin="130,300,0,0" TextWrapping="Wrap" Text="cmd" VerticalAlignment="Top" Width="125"/>
+        <local:ColorButton x:Name="Proxy" Content="Proxy" Width="100" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,418,0,0"/>
+        <TextBox x:Name="ProxyFrom" HorizontalAlignment="Left" Height="30" Margin="130,418,0,0" TextWrapping="Wrap" Text="11000" VerticalAlignment="Top" Width="49" RenderTransformOrigin="0.608,1.6"/>
+        <TextBox x:Name="ProxyTo" HorizontalAlignment="Left" Height="30" Margin="206,418,0,0" TextWrapping="Wrap" Text="12000" VerticalAlignment="Top" Width="49" RenderTransformOrigin="0.608,1.6"/>
+        
+        <RichTextBox x:Name="DebugConsoleText" HorizontalAlignment="Left" Height="199" Margin="5,512,0,0" VerticalAlignment="Top" Width="996"/>
     </Grid>
 </Window>

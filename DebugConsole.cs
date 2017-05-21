@@ -7,15 +7,16 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace FrontEnd
 {
     public class DebugConsole
     {
-        private TextBox m_ConsoleWindow;
+        private RichTextBox m_ConsoleWindow;
         private int m_ConsoleStrCount = 0;
 
-        public DebugConsole(TextBox consoleWindow)
+        public DebugConsole(RichTextBox consoleWindow)
         {
             m_ConsoleWindow = consoleWindow;
         }
@@ -35,21 +36,34 @@ namespace FrontEnd
         {
             WriteLine(BitConverter.ToString(data));
         }
+        public void WriteLine(byte[] data, int length)
+        {
+            WriteLine(BitConverter.ToString(data, 0, length));
+        }
 
-        public void WriteLine(string str)
+        public void WriteLine(string str, Brush brush = null)
         {
             Console.WriteLine(str);
 
             m_ConsoleWindow.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal,
             new Action(delegate ()
             {
+                Brush oldBrush = m_ConsoleWindow.Foreground;
+                if (brush != null)
+                {
+                    m_ConsoleWindow.Foreground = brush;
+                }
                 m_ConsoleWindow.AppendText(m_ConsoleStrCount + " " + str + "\n");
                 m_ConsoleWindow.ScrollToEnd();
                 ++m_ConsoleStrCount;
+                if (brush != null)
+                {
+                    m_ConsoleWindow.Foreground = oldBrush;
+                }
             }));
         }
 
-        public void WriteLineAsString(byte[] data, int dataMax = int.MaxValue)
+        public void WriteLineAsString(byte[] data, int dataMax = int.MaxValue, Brush brush = null)
         {
             string str = "";
             for(int idx = 0; idx < data.Length && idx < dataMax; ++idx) {
@@ -59,7 +73,7 @@ namespace FrontEnd
                 }
                 str += (char)b;
             }
-            WriteLine(str);
+            WriteLine(str, brush);
         }
 
         // Convert an object to a byte array
