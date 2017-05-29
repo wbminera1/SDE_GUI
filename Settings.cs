@@ -10,6 +10,8 @@ namespace SDE_GUI
         [JsonProperty]
         public string SDEPath { get; set; }
         [JsonProperty]
+        public string GDBServerPath { get; set; }
+        [JsonProperty]
         public string GDBPath { get; set; }
         [JsonProperty]
         public string CMDPath { get; set; }

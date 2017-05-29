@@ -26,6 +26,7 @@ namespace SDE_GUI.GUI
             if(SDE_GUI.Settings.Load(out m_Current))
             {
                 textSDE.Text = m_Current.SDEPath;
+                textGDBServer.Text = m_Current.GDBServerPath;
                 textGDB.Text = m_Current.GDBPath;
                 textCMD.Text = m_Current.CMDPath;
                 textARG.Text = m_Current.Args;
@@ -61,6 +62,7 @@ namespace SDE_GUI.GUI
         private void buttonOk_Click(object sender, RoutedEventArgs e)
         {
             m_Current.SDEPath = textSDE.Text;
+            m_Current.GDBServerPath = textGDBServer.Text;
             m_Current.GDBPath = textGDB.Text;
             m_Current.CMDPath = textCMD.Text;
             m_Current.Args = textARG.Text;
@@ -78,25 +80,38 @@ namespace SDE_GUI.GUI
         private void buttonSDE_Click(object sender, RoutedEventArgs e)
         {
             Hide();
-            string sde = GetExePath();
-            if(sde.Length > 0)
+            string path = GetExePath();
+            if(path.Length > 0)
             {
-                m_Current.SDEPath = sde;
-                textSDE.Text = sde;
+                m_Current.SDEPath = path;
+                textSDE.Text = path;
             }
             Show();
         }
         private void buttonGDB_Click(object sender, RoutedEventArgs e)
         {
             Hide();
-            string gdb = GetExePath();
-            if (gdb.Length > 0)
+            string path = GetExePath();
+            if (path.Length > 0)
             {
-                m_Current.GDBPath = gdb;
-                textGDB.Text = gdb;
+                m_Current.GDBPath = path;
+                textGDB.Text = path;
             }
             Show();
         }
+
+        private void buttonGDBServer_Click(object sender, RoutedEventArgs e)
+        {
+            Hide();
+            string path = GetExePath();
+            if (path.Length > 0)
+            {
+                m_Current.GDBServerPath = path;
+                textGDBServer.Text = path;
+            }
+            Show();
+        }
+
         private void buttonCMD_Click(object sender, RoutedEventArgs e)
         {
             Hide();

@@ -13,13 +13,16 @@ namespace SDE_GUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        private int m_Port = -1;
-        private ProcessAsync m_ProcessAsync = new ProcessAsync();
+        //private int m_Port = -1;
+        private ProcessAsync m_GDBServerProcessAsync = new ProcessAsync();
+        private ProcessAsync m_GDBProcessAsync = new ProcessAsync();
         private AsynchronousClient m_Client = new AsynchronousClient();
         private Settings    m_Settings = new Settings();
         private GDBRemoteSerialProtocol m_GDBRSP = new GDBRemoteSerialProtocol();
         private DebugConsole m_DebugConsole;
-        private Thread m_ProcessThread;
+        //private Thread m_ProcessThread;
+        private Thread m_GDBServerThread;
+        private Thread m_GDBThread;
         private Proxy m_Proxy;
 
         public MainWindow()
@@ -37,12 +40,12 @@ namespace SDE_GUI
             }
 
             Proxy.OnSwitched = OnProxySwitched;
-            //m_ProcessThread = new Thread(RunProcess);
-            //m_ProcessThread.Start();
+            GDBServer.OnSwitched = OnGDBServerSwitched;
+            GDB.OnSwitched = OnGDBSwitched;
         }
         protected override void OnClosing(CancelEventArgs e)
         {
-            m_ProcessAsync.Kill();
+            //m_ProcessAsync.Kill();
         }
         private void RunProcess()
         {
@@ -54,16 +57,17 @@ namespace SDE_GUI
                 fullArgs = "-debug -- " + m_Settings.CMDPath + " " + m_Settings.Args;
             } else if (m_Settings.Selection == 1)
             {
-                fullPath = m_Settings.GDBPath;
+                fullPath = m_Settings.GDBServerPath;
                 fullArgs = "127.0.0.1:10000 " + m_Settings.CMDPath + " " + m_Settings.Args;
             }
-            m_ProcessAsync.Run(fullPath, fullArgs, new DataReceivedEventHandler(ProcessOutputHandler));
+            //m_ProcessAsync.Run(fullPath, fullArgs, new DataReceivedEventHandler(ProcessOutputHandler));
         }
         private void ProcessOutputHandler(object sendingProcess, DataReceivedEventArgs outLine)
         {
             if (!String.IsNullOrEmpty(outLine.Data))
             {
                 m_DebugConsole.WriteLine(outLine.Data);
+/*
                 if(outLine.Data.Contains("on port")) {
                     int portIdx = outLine.Data.IndexOfAny("0123456789".ToCharArray());
                     if (portIdx >= 0)
@@ -73,6 +77,7 @@ namespace SDE_GUI
                         m_Client.Start("127.0.0.1",m_Port, DataReceiveCallback, ConnectCallback);
                     }
                 }
+*/
             }
         }
         private void ConnectCallback(bool success)
@@ -153,10 +158,59 @@ namespace SDE_GUI
             if (!newState && m_Proxy != null)
             {
                 m_Proxy.Stop();
-                //m_Proxy = null;
+                m_Proxy = null;
                 return true;
             }
             return false;
+        }
+        bool OnGDBServerSwitched(bool newState)
+        {
+            if(newState && m_GDBServerThread == null)
+            {
+                m_GDBServerThread = new Thread(RunGDBServer);
+                m_GDBServerThread.Start();
+                m_GDBProcessAsync.InputLine("target remote 127.0.0.1:" + GDBPort.Text);
+                return true;
+            }
+            else if (!newState && m_GDBServerThread != null)
+            {
+                m_GDBServerProcessAsync.Kill();
+                m_GDBServerThread.Join();
+                m_GDBServerThread = null;
+                return true;
+            }
+            return false;
+        }
+
+        bool OnGDBSwitched(bool newState)
+        {
+            if (newState && m_GDBThread == null)
+            {
+                m_GDBThread = new Thread(RunGDB);
+                m_GDBThread.Start();
+                return true;
+            }
+            else if (!newState && m_GDBThread != null)
+            {
+                m_GDBProcessAsync.Kill();
+                m_GDBThread.Join();
+                m_GDBThread = null;
+                return true;
+            }
+            return false;
+        }
+
+        private void RunGDBServer()
+        {
+            string fullPath = m_Settings.GDBServerPath;
+            string fullArgs = "127.0.0.1:" + "12000" + " " + m_Settings.CMDPath + " " + m_Settings.Args;
+            m_GDBServerProcessAsync.Run(fullPath, fullArgs, new DataReceivedEventHandler(ProcessOutputHandler));
+        }
+
+        private void RunGDB()
+        {
+            string fullPath = m_Settings.GDBPath;
+            m_GDBProcessAsync.Run(fullPath, "", new DataReceivedEventHandler(ProcessOutputHandler));
         }
     }
 }
