@@ -79,11 +79,18 @@
     <Compile Include="AsynchronousServer.cs" />
     <Compile Include="GDBRemoteSerialProtocol.cs" />
     <Compile Include="GUI\ColorButton.cs" />
+    <Compile Include="GUI\GDBWindow.xaml.cs">
+      <DependentUpon>GDBWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
     <Compile Include="Proxy.cs" />
     <Compile Include="Settings.cs" />
+    <Page Include="GUI\GDBWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GUI\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

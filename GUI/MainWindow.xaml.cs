@@ -17,13 +17,14 @@ namespace SDE_GUI
         private ProcessAsync m_GDBServerProcessAsync = new ProcessAsync();
         private ProcessAsync m_GDBProcessAsync = new ProcessAsync();
         private AsynchronousClient m_Client = new AsynchronousClient();
-        private Settings    m_Settings = new Settings();
+        private Settings m_Settings = new Settings();
         private GDBRemoteSerialProtocol m_GDBRSP = new GDBRemoteSerialProtocol();
         private DebugConsole m_DebugConsole;
         //private Thread m_ProcessThread;
         private Thread m_GDBServerThread;
         private Thread m_GDBThread;
         private Proxy m_Proxy;
+        private GUI.GDBWindow m_GDBWindow;
 
         public MainWindow()
         {
@@ -55,7 +56,8 @@ namespace SDE_GUI
             {
                 fullPath = m_Settings.SDEPath;
                 fullArgs = "-debug -- " + m_Settings.CMDPath + " " + m_Settings.Args;
-            } else if (m_Settings.Selection == 1)
+            }
+            else if (m_Settings.Selection == 1)
             {
                 fullPath = m_Settings.GDBServerPath;
                 fullArgs = "127.0.0.1:10000 " + m_Settings.CMDPath + " " + m_Settings.Args;
@@ -67,17 +69,17 @@ namespace SDE_GUI
             if (!String.IsNullOrEmpty(outLine.Data))
             {
                 m_DebugConsole.WriteLine(outLine.Data);
-/*
-                if(outLine.Data.Contains("on port")) {
-                    int portIdx = outLine.Data.IndexOfAny("0123456789".ToCharArray());
-                    if (portIdx >= 0)
-                    {
-                        string portStr = outLine.Data.Substring(portIdx);
-                        m_Port = Int32.Parse(portStr);
-                        m_Client.Start("127.0.0.1",m_Port, DataReceiveCallback, ConnectCallback);
-                    }
-                }
-*/
+                /*
+                                if(outLine.Data.Contains("on port")) {
+                                    int portIdx = outLine.Data.IndexOfAny("0123456789".ToCharArray());
+                                    if (portIdx >= 0)
+                                    {
+                                        string portStr = outLine.Data.Substring(portIdx);
+                                        m_Port = Int32.Parse(portStr);
+                                        m_Client.Start("127.0.0.1",m_Port, DataReceiveCallback, ConnectCallback);
+                                    }
+                                }
+                */
             }
         }
         private void ConnectCallback(bool success)
@@ -88,7 +90,7 @@ namespace SDE_GUI
         {
             m_DebugConsole.WriteLineAsString(result, bytesRead);
             byte[] response = m_GDBRSP.DataReceiveCallback(result, bytesRead);
-            if(response != null)
+            if (response != null)
             {
                 m_DebugConsole.WriteLineAsString(response);
                 m_Client.Send(response, bytesRead);
@@ -165,7 +167,7 @@ namespace SDE_GUI
         }
         bool OnGDBServerSwitched(bool newState)
         {
-            if(newState && m_GDBServerThread == null)
+            if (newState && m_GDBServerThread == null)
             {
                 m_GDBServerThread = new Thread(RunGDBServer);
                 m_GDBServerThread.Start();
@@ -188,6 +190,9 @@ namespace SDE_GUI
             {
                 m_GDBThread = new Thread(RunGDB);
                 m_GDBThread.Start();
+                m_GDBWindow = new GUI.GDBWindow();
+                m_GDBWindow.InputCompletedCallback = OnGDBInputCompleted;
+                m_GDBWindow.Show();
                 return true;
             }
             else if (!newState && m_GDBThread != null)
@@ -195,6 +200,7 @@ namespace SDE_GUI
                 m_GDBProcessAsync.Kill();
                 m_GDBThread.Join();
                 m_GDBThread = null;
+                m_GDBWindow.Close();
                 return true;
             }
             return false;
@@ -210,7 +216,19 @@ namespace SDE_GUI
         private void RunGDB()
         {
             string fullPath = m_Settings.GDBPath;
-            m_GDBProcessAsync.Run(fullPath, "", new DataReceivedEventHandler(ProcessOutputHandler));
+            m_GDBProcessAsync.Run(fullPath, "", new DataReceivedEventHandler(ProcessGDBOutputHandler));
+        }
+
+        private void ProcessGDBOutputHandler(object sendingProcess, DataReceivedEventArgs outLine)
+        {
+            if (!String.IsNullOrEmpty(outLine.Data))
+            {
+                m_GDBWindow?.AddTextToConsole(outLine.Data);
+            }
+        }
+        private void OnGDBInputCompleted(string input)
+        {
+            m_GDBProcessAsync.InputLine(input);
         }
     }
-}
+} // namespace SDE_GUI

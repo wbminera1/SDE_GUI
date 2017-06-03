@@ -1,0 +1,24 @@
+﻿<Window x:Class="SDE_GUI.GUI.GDBWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SDE_GUI.GUI"
+        mc:Ignorable="d"
+        Title="GDBWindow" Height="768" Width="1024">
+    <Grid>
+        <RichTextBox x:Name="RichTextBox_Console" HorizontalAlignment="Left"  Margin="10,10,0,10" Width="640" FontFamily="Courier New" TextChanged="RichTextBox_Console_TextChanged" TextInput="RichTextBox_Console_TextInput" FontSize="14" PreviewKeyDown="RichTextBox_Console_PreviewKeyDown">
+            <RichTextBox.Resources>
+                <Style TargetType="{x:Type Paragraph}">
+                    <Setter Property="Margin" Value="0"/>
+                </Style>
+            </RichTextBox.Resources>
+            <FlowDocument>
+                <Paragraph>
+                    <Run Text="RichTextBox"/>
+                </Paragraph>
+            </FlowDocument>
+        </RichTextBox>
+
+    </Grid>
+</Window>
