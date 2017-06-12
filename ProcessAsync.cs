@@ -57,7 +57,12 @@ namespace SDE_GUI
 
         public void Kill()
         {
-            m_Process.Kill();
+            try
+            {
+                m_Process.Kill();
+            } catch(System.InvalidOperationException)
+            {
+            }
         }
 
     }

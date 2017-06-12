@@ -1,0 +1,373 @@
+﻿<Window x:Class="SDE_GUI.GUI.GDBRegistersWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SDE_GUI.GUI"
+        mc:Ignorable="d"
+        Title="Registers" Height="800" Width="1024">
+    <Grid>
+        <StackPanel HorizontalAlignment="Left" Height="378" Margin="20,10,0,0" VerticalAlignment="Top" Width="34">
+            <StackPanel.Resources>
+                <Style TargetType="Label">
+                    <Setter Property="FontFamily" Value="Lucida Sans Unicode" />
+                    <Setter Property="Margin" Value="0,-4,0,-4" />
+                </Style>
+            </StackPanel.Resources>
+            <Label x:Name="labelRAX" Content="RAX"/>
+            <Label x:Name="labelRBX" Content="RBX"/>
+            <Label x:Name="labelRCX" Content="RCX"/>
+            <Label x:Name="labelRDX" Content="RDX"/>
+            <Label x:Name="labelRBP" Content="RBP"/>
+            <Label x:Name="labelRSI" Content="RSI"/>
+            <Label x:Name="labelRDI" Content="RDI"/>
+            <Label x:Name="labelRSP" Content="RSP"/>
+            <Label x:Name="labelR8" Content="R8"/>
+            <Label x:Name="labelR9" Content="R9"/>
+            <Label x:Name="labelR10" Content="R10"/>
+            <Label x:Name="labelR11" Content="R11"/>
+            <Label x:Name="labelR12" Content="R12"/>
+            <Label x:Name="labelR13" Content="R13"/>
+            <Label x:Name="labelR14" Content="R14"/>
+            <Label x:Name="labelR15" Content="R15"/>
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Left" Height="368" Margin="50,10,0,0" VerticalAlignment="Top" Width="108">
+            <StackPanel.Resources>
+                <Style TargetType="TextBox">
+                    <Setter Property="FontFamily" Value="Lucida Sans Unicode" />
+                    <Setter Property="Margin" Value="0,-2,0,-2" />
+                </Style>
+            </StackPanel.Resources>
+            <TextBox x:Name="TextBoxRAX" Height="23" TextWrapping="Wrap" Text="1000000000000000" TextChanged="textBox_TextChanged" FontFamily="Lucida Sans Unicode"/>
+            <TextBox x:Name="TextBoxRBX" Height="23" TextWrapping="Wrap" Text="1100000000000000" TextChanged="textBox_TextChanged"/>
+            <TextBox x:Name="TextBoxRCX" Height="23" TextWrapping="Wrap" Text="ABCDEF0000000000" TextChanged="textBox_TextChanged"/>
+            <TextBox x:Name="TextBoxRDX" Height="23" TextWrapping="Wrap" Text="0000000000000000" TextChanged="textBox_TextChanged"/>
+            <TextBox x:Name="TextBoxRBP" Height="23" TextWrapping="Wrap" Text="0000000000000000" TextChanged="textBox_TextChanged"/>
+            <TextBox x:Name="TextBoxRSI" Height="23" TextWrapping="Wrap" Text="0000000000000000" TextChanged="textBox_TextChanged"/>
+            <TextBox x:Name="TextBoxRDI" Height="23" TextWrapping="Wrap" Text="0000000000000000" TextChanged="textBox_TextChanged"/>
+            <TextBox x:Name="TextBoxRSP" Height="23" TextWrapping="Wrap" Text="0000000000000000" TextChanged="textBox_TextChanged"/>
+            <TextBox x:Name="TextBoxR8" Height="23" TextWrapping="Wrap" Text="0000000000000000" TextChanged="textBox_TextChanged"/>
+            <TextBox x:Name="TextBoxR9" Height="23" TextWrapping="Wrap" Text="0000000000000000" TextChanged="textBox_TextChanged"/>
+            <TextBox x:Name="TextBoxR10" Height="23" TextWrapping="Wrap" Text="0000000000000000" TextChanged="textBox_TextChanged"/>
+            <TextBox x:Name="TextBoxR11" Height="23" TextWrapping="Wrap" Text="0000000000000000" TextChanged="textBox_TextChanged"/>
+            <TextBox x:Name="TextBoxR12" Height="23" TextWrapping="Wrap" Text="0000000000000000" TextChanged="textBox_TextChanged"/>
+            <TextBox x:Name="TextBoxR13" Height="23" TextWrapping="Wrap" Text="0000000000000000" TextChanged="textBox_TextChanged"/>
+            <TextBox x:Name="TextBoxR14" Height="23" TextWrapping="Wrap" Text="0000000000000000" TextChanged="textBox_TextChanged"/>
+            <TextBox x:Name="TextBoxR15" Height="23" TextWrapping="Wrap" Text="0000000000000000" TextChanged="textBox_TextChanged"/>
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Left" Height="152" Margin="180,10,0,0" VerticalAlignment="Top" Width="74">
+            <StackPanel.Resources>
+                <Style TargetType="Label">
+                    <Setter Property="FontFamily" Value="Lucida Sans Unicode" />
+                    <Setter Property="Margin" Value="0,-4,0,-4" />
+                </Style>
+            </StackPanel.Resources>
+            <Label x:Name="labelM8" Content="FPR0/MMX0"/>
+            <Label x:Name="labelM9" Content="FPR0/MMX0"/>
+            <Label x:Name="labelM10" Content="FPR0/MMX0"/>
+            <Label x:Name="labelM11" Content="FPR0/MMX0"/>
+            <Label x:Name="labelM12" Content="FPR0/MMX0"/>
+            <Label x:Name="labelM13" Content="FPR0/MMX0"/>
+            <Label x:Name="labelM14" Content="FPR0/MMX0"/>
+            <Label x:Name="labelM15" Content="FPR0/MMX0"/>
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Left" Height="152" Margin="252,10,0,0" VerticalAlignment="Top" Width="108">
+            <StackPanel.Resources>
+                <Style TargetType="TextBox">
+                    <Setter Property="FontFamily" Value="Lucida Sans Unicode" />
+                    <Setter Property="Margin" Value="0,-2,0,-2" />
+                </Style>
+            </StackPanel.Resources>
+            <TextBox x:Name="TextBoxM8" Height="23" TextWrapping="Wrap" Text="0000000000000000" TextChanged="textBox_TextChanged"/>
+            <TextBox x:Name="TextBoxM9" Height="23" TextWrapping="Wrap" Text="0000000000000000" TextChanged="textBox_TextChanged"/>
+            <TextBox x:Name="TextBoxM10" Height="23" TextWrapping="Wrap" Text="0000000000000000" TextChanged="textBox_TextChanged"/>
+            <TextBox x:Name="TextBoxM11" Height="23" TextWrapping="Wrap" Text="0000000000000000" TextChanged="textBox_TextChanged"/>
+            <TextBox x:Name="TextBoxM12" Height="23" TextWrapping="Wrap" Text="0000000000000000" TextChanged="textBox_TextChanged"/>
+            <TextBox x:Name="TextBoxM13" Height="23" TextWrapping="Wrap" Text="0000000000000000" TextChanged="textBox_TextChanged"/>
+            <TextBox x:Name="TextBoxM14" Height="23" TextWrapping="Wrap" Text="0000000000000000" TextChanged="textBox_TextChanged"/>
+            <TextBox x:Name="TextBoxM15" Height="23" TextWrapping="Wrap" Text="0000000000000000" TextChanged="textBox_TextChanged"/>
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Left" Height="38" Margin="180,180,0,0" VerticalAlignment="Top" Width="74">
+            <StackPanel.Resources>
+                <Style TargetType="Label">
+                    <Setter Property="FontFamily" Value="Lucida Sans Unicode" />
+                    <Setter Property="Margin" Value="0,-4,0,-4" />
+                </Style>
+            </StackPanel.Resources>
+            <Label x:Name="labelRIP" Content="RIP"/>
+            <Label x:Name="labelRFLAGS" Content="RFLAGS"/>
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Left" Height="38" Margin="252,180,0,0" VerticalAlignment="Top" Width="108">
+            <StackPanel.Resources>
+                <Style TargetType="TextBox">
+                    <Setter Property="FontFamily" Value="Lucida Sans Unicode" />
+                    <Setter Property="Margin" Value="0,-2,0,-2" />
+                </Style>
+            </StackPanel.Resources>
+            <TextBox x:Name="TextBoxRIP" Height="23" TextWrapping="Wrap" Text="0000000000000000" TextChanged="textBox_TextChanged"/>
+            <TextBox x:Name="TextBoxRFLAGS" Height="23" TextWrapping="Wrap" Text="0000000000000000" TextChanged="textBox_TextChanged"/>
+        </StackPanel>
+        <TabControl x:Name="TabControlSIMD" HorizontalAlignment="Left" Height="Auto" Margin="10,320,0,0" VerticalAlignment="Top">
+            <TabItem Header="SSE">
+                <TabItem.Resources>
+                    <Style TargetType="Label">
+                        <Setter Property="FontFamily" Value="Lucida Sans Unicode" />
+                        <Setter Property="FontSize" Value="9" />
+                        <Setter Property="Padding" Value="1" />
+                    </Style>
+                    <Style TargetType="TextBox">
+                        <Setter Property="FontFamily" Value="Lucida Sans Unicode" />
+                        <Setter Property="FontSize" Value="9" />
+                        <Setter Property="BorderThickness" Value="0" />
+                    </Style>
+                </TabItem.Resources>
+                <Grid ShowGridLines="True" Background="White">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Label x:Name="XMM0" Grid.Row="0" Grid.Column="0" Content="XMM0"/>
+                    <Label x:Name="XMM1" Grid.Row="1" Grid.Column="0" Content="XMM1"/>
+                    <Label x:Name="XMM2" Grid.Row="2" Grid.Column="0" Content="XMM2"/>
+                    <Label x:Name="XMM3" Grid.Row="3" Grid.Column="0" Content="XMM3"/>
+                    <Label x:Name="XMM4" Grid.Row="4" Grid.Column="0" Content="XMM4"/>
+                    <Label x:Name="XMM5" Grid.Row="5" Grid.Column="0" Content="XMM5"/>
+                    <Label x:Name="XMM6" Grid.Row="6" Grid.Column="0" Content="XMM6"/>
+                    <Label x:Name="XMM7" Grid.Row="7" Grid.Column="0" Content="XMM7"/>
+                    <Label x:Name="XMM8" Grid.Row="8" Grid.Column="0" Content="XMM8"/>
+                    <Label x:Name="XMM9" Grid.Row="9" Grid.Column="0" Content="XMM9"/>
+                    <Label x:Name="XMM10" Grid.Row="10" Grid.Column="0" Content="XMM10"/>
+                    <Label x:Name="XMM11" Grid.Row="11" Grid.Column="0" Content="XMM11"/>
+                    <Label x:Name="XMM12" Grid.Row="12" Grid.Column="0" Content="XMM12"/>
+                    <Label x:Name="XMM13" Grid.Row="13" Grid.Column="0" Content="XMM13"/>
+                    <Label x:Name="XMM14" Grid.Row="14" Grid.Column="0" Content="XMM14"/>
+                    <Label x:Name="XMM15" Grid.Row="15" Grid.Column="0" Content="XMM15"/>
+                    <TextBox x:Name="TextBoxXMM0" Grid.Row="0" Grid.Column="1" Text="01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxXMM1" Grid.Row="1" Grid.Column="1" Text="01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxXMM2" Grid.Row="2" Grid.Column="1" Text="01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxXMM3" Grid.Row="3" Grid.Column="1" Text="01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxXMM4" Grid.Row="4" Grid.Column="1" Text="01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxXMM5" Grid.Row="5" Grid.Column="1" Text="01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxXMM6" Grid.Row="6" Grid.Column="1" Text="01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxXMM7" Grid.Row="7" Grid.Column="1" Text="01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxXMM8" Grid.Row="8" Grid.Column="1" Text="01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxXMM9" Grid.Row="9" Grid.Column="1" Text="01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxXMM10" Grid.Row="10" Grid.Column="1" Text="01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxXMM11" Grid.Row="11" Grid.Column="1" Text="01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxXMM12" Grid.Row="12" Grid.Column="1" Text="01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxXMM13" Grid.Row="13" Grid.Column="1" Text="01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxXMM14" Grid.Row="14" Grid.Column="1" Text="01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxXMM15" Grid.Row="15" Grid.Column="1" Text="01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="AVX">
+                <TabItem.Resources>
+                    <Style TargetType="Label">
+                        <Setter Property="FontFamily" Value="Lucida Sans Unicode" />
+                        <Setter Property="FontSize" Value="9" />
+                        <Setter Property="Padding" Value="1" />
+                    </Style>
+                    <Style TargetType="TextBox">
+                        <Setter Property="FontFamily" Value="Lucida Sans Unicode" />
+                        <Setter Property="FontSize" Value="9" />
+                        <Setter Property="BorderThickness" Value="0" />
+                    </Style>
+                </TabItem.Resources>
+                <Grid ShowGridLines="True" Background="White">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Label x:Name="YMM0" Grid.Row="0" Grid.Column="0" Content="YMM0"/>
+                    <Label x:Name="YMM1" Grid.Row="1" Grid.Column="0" Content="YMM1"/>
+                    <Label x:Name="YMM2" Grid.Row="2" Grid.Column="0" Content="YMM2"/>
+                    <Label x:Name="YMM3" Grid.Row="3" Grid.Column="0" Content="YMM3"/>
+                    <Label x:Name="YMM4" Grid.Row="4" Grid.Column="0" Content="YMM4"/>
+                    <Label x:Name="YMM5" Grid.Row="5" Grid.Column="0" Content="YMM5"/>
+                    <Label x:Name="YMM6" Grid.Row="6" Grid.Column="0" Content="YMM6"/>
+                    <Label x:Name="YMM7" Grid.Row="7" Grid.Column="0" Content="YMM7"/>
+                    <Label x:Name="YMM8" Grid.Row="8" Grid.Column="0" Content="YMM8"/>
+                    <Label x:Name="YMM9" Grid.Row="9" Grid.Column="0" Content="YMM9"/>
+                    <Label x:Name="YMM10" Grid.Row="10" Grid.Column="0" Content="YMM10"/>
+                    <Label x:Name="YMM11" Grid.Row="11" Grid.Column="0" Content="YMM11"/>
+                    <Label x:Name="YMM12" Grid.Row="12" Grid.Column="0" Content="YMM12"/>
+                    <Label x:Name="YMM13" Grid.Row="13" Grid.Column="0" Content="YMM13"/>
+                    <Label x:Name="YMM14" Grid.Row="14" Grid.Column="0" Content="YMM14"/>
+                    <Label x:Name="YMM15" Grid.Row="15" Grid.Column="0" Content="YMM15"/>
+                    <TextBox x:Name="TextBoxYMM0" Grid.Row="0" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxYMM1" Grid.Row="1" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxYMM2" Grid.Row="2" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxYMM3" Grid.Row="3" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxYMM4" Grid.Row="4" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxYMM5" Grid.Row="5" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxYMM6" Grid.Row="6" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxYMM7" Grid.Row="7" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxYMM8" Grid.Row="8" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxYMM9" Grid.Row="9" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxYMM10" Grid.Row="10" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxYMM11" Grid.Row="11" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxYMM12" Grid.Row="12" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxYMM13" Grid.Row="13" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxYMM14" Grid.Row="14" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxYMM15" Grid.Row="15" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="AVX-512">
+                <TabItem.Resources>
+                    <Style TargetType="Label">
+                        <Setter Property="FontFamily" Value="Lucida Sans Unicode" />
+                        <Setter Property="FontSize" Value="7" />
+                        <Setter Property="Padding" Value="1" />
+                    </Style>
+                    <Style TargetType="TextBox">
+                        <Setter Property="FontFamily" Value="Lucida Sans Unicode" />
+                        <Setter Property="FontSize" Value="7" />
+                        <Setter Property="BorderThickness" Value="0" />
+
+                    </Style>
+                </TabItem.Resources>
+                <Grid ShowGridLines="True" Background="White">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Label x:Name="ZMM0" Grid.Row="0" Grid.Column="0" Content="ZMM0"/>
+                    <Label x:Name="ZMM1" Grid.Row="1" Grid.Column="0" Content="ZMM1"/>
+                    <Label x:Name="ZMM2" Grid.Row="2" Grid.Column="0" Content="ZMM2"/>
+                    <Label x:Name="ZMM3" Grid.Row="3" Grid.Column="0" Content="ZMM3"/>
+                    <Label x:Name="ZMM4" Grid.Row="4" Grid.Column="0" Content="ZMM4"/>
+                    <Label x:Name="ZMM5" Grid.Row="5" Grid.Column="0" Content="ZMM5"/>
+                    <Label x:Name="ZMM6" Grid.Row="6" Grid.Column="0" Content="ZMM6"/>
+                    <Label x:Name="ZMM7" Grid.Row="7" Grid.Column="0" Content="ZMM7"/>
+                    <Label x:Name="ZMM8" Grid.Row="8" Grid.Column="0" Content="ZMM8"/>
+                    <Label x:Name="ZMM9" Grid.Row="9" Grid.Column="0" Content="ZMM9"/>
+                    <Label x:Name="ZMM10" Grid.Row="10" Grid.Column="0" Content="ZMM10"/>
+                    <Label x:Name="ZMM11" Grid.Row="11" Grid.Column="0" Content="ZMM11"/>
+                    <Label x:Name="ZMM12" Grid.Row="12" Grid.Column="0" Content="ZMM12"/>
+                    <Label x:Name="ZMM13" Grid.Row="13" Grid.Column="0" Content="ZMM13"/>
+                    <Label x:Name="ZMM14" Grid.Row="14" Grid.Column="0" Content="ZMM14"/>
+                    <Label x:Name="ZMM15" Grid.Row="15" Grid.Column="0" Content="ZMM15"/>
+                    <Label x:Name="ZMM16" Grid.Row="16" Grid.Column="0" Content="ZMM16"/>
+                    <Label x:Name="ZMM17" Grid.Row="17" Grid.Column="0" Content="ZMM17"/>
+                    <Label x:Name="ZMM18" Grid.Row="18" Grid.Column="0" Content="ZMM18"/>
+                    <Label x:Name="ZMM19" Grid.Row="19" Grid.Column="0" Content="ZMM19"/>
+                    <Label x:Name="ZMM20" Grid.Row="20" Grid.Column="0" Content="ZMM20"/>
+                    <Label x:Name="ZMM21" Grid.Row="21" Grid.Column="0" Content="ZMM21"/>
+                    <Label x:Name="ZMM22" Grid.Row="22" Grid.Column="0" Content="ZMM22"/>
+                    <Label x:Name="ZMM23" Grid.Row="23" Grid.Column="0" Content="ZMM23"/>
+                    <Label x:Name="ZMM24" Grid.Row="24" Grid.Column="0" Content="ZMM24"/>
+                    <Label x:Name="ZMM25" Grid.Row="25" Grid.Column="0" Content="ZMM25"/>
+                    <Label x:Name="ZMM26" Grid.Row="26" Grid.Column="0" Content="ZMM26"/>
+                    <Label x:Name="ZMM27" Grid.Row="27" Grid.Column="0" Content="ZMM27"/>
+                    <Label x:Name="ZMM28" Grid.Row="28" Grid.Column="0" Content="ZMM28"/>
+                    <Label x:Name="ZMM29" Grid.Row="29" Grid.Column="0" Content="ZMM29"/>
+                    <Label x:Name="ZMM30" Grid.Row="30" Grid.Column="0" Content="ZMM30"/>
+                    <Label x:Name="ZMM31" Grid.Row="31" Grid.Column="0" Content="ZMM31"/>
+                    <TextBox x:Name="TextBoxZMM0" Grid.Row="0" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxZMM1" Grid.Row="1" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxZMM2" Grid.Row="2" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxZMM3" Grid.Row="3" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxZMM4" Grid.Row="4" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxZMM5" Grid.Row="5" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxZMM6" Grid.Row="6" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxZMM7" Grid.Row="7" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxZMM8" Grid.Row="8" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxZMM9" Grid.Row="9" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxZMM10" Grid.Row="10" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxZMM11" Grid.Row="11" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxZMM12" Grid.Row="12" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxZMM13" Grid.Row="13" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxZMM14" Grid.Row="14" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxZMM15" Grid.Row="15" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxZMM16" Grid.Row="16" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxZMM17" Grid.Row="17" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxZMM18" Grid.Row="18" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxZMM19" Grid.Row="19" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxZMM20" Grid.Row="20" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxZMM21" Grid.Row="21" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxZMM22" Grid.Row="22" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxZMM23" Grid.Row="23" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxZMM24" Grid.Row="24" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxZMM25" Grid.Row="25" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxZMM26" Grid.Row="26" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxZMM27" Grid.Row="27" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxZMM28" Grid.Row="28" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxZMM29" Grid.Row="29" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxZMM30" Grid.Row="30" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="TextBoxZMM31" Grid.Row="31" Grid.Column="1" Text="01234567ABCDEF01234567ABCDEF01234567ABCDEF01234567ABCDEF" TextChanged="textBox_TextChanged"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</Window>

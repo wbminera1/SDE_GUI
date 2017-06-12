@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading;
 using System.Windows;
-using System.Windows.Media;
 
 namespace SDE_GUI
 {
@@ -14,13 +13,14 @@ namespace SDE_GUI
     public partial class MainWindow : Window
     {
         //private int m_Port = -1;
+        private ProcessAsync m_SDEServerProcessAsync = new ProcessAsync();
         private ProcessAsync m_GDBServerProcessAsync = new ProcessAsync();
         private ProcessAsync m_GDBProcessAsync = new ProcessAsync();
         private AsynchronousClient m_Client = new AsynchronousClient();
         private Settings m_Settings = new Settings();
         private GDBRemoteSerialProtocol m_GDBRSP = new GDBRemoteSerialProtocol();
         private DebugConsole m_DebugConsole;
-        //private Thread m_ProcessThread;
+        private Thread m_SDEServerThread;
         private Thread m_GDBServerThread;
         private Thread m_GDBThread;
         private Proxy m_Proxy;
@@ -42,6 +42,7 @@ namespace SDE_GUI
 
             Proxy.OnSwitched = OnProxySwitched;
             GDBServer.OnSwitched = OnGDBServerSwitched;
+            SDEServer.OnSwitched = OnSDEServerSwitched;
             GDB.OnSwitched = OnGDBSwitched;
         }
         protected override void OnClosing(CancelEventArgs e)
@@ -69,17 +70,18 @@ namespace SDE_GUI
             if (!String.IsNullOrEmpty(outLine.Data))
             {
                 m_DebugConsole.WriteLine(outLine.Data);
-                /*
-                                if(outLine.Data.Contains("on port")) {
-                                    int portIdx = outLine.Data.IndexOfAny("0123456789".ToCharArray());
-                                    if (portIdx >= 0)
-                                    {
-                                        string portStr = outLine.Data.Substring(portIdx);
-                                        m_Port = Int32.Parse(portStr);
-                                        m_Client.Start("127.0.0.1",m_Port, DataReceiveCallback, ConnectCallback);
-                                    }
-                                }
-                */
+                if(outLine.Data.Contains("on port")) {
+                    int portIdx = outLine.Data.IndexOfAny("0123456789".ToCharArray());
+                    if (portIdx >= 0)
+                    {
+                        string portStr = outLine.Data.Substring(portIdx);
+                        Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal,
+                        new Action(delegate ()
+                        {
+                            ProxyTo.Text = portStr;
+                        }));
+                    }
+                }
             }
         }
         private void ConnectCallback(bool success)
@@ -165,13 +167,29 @@ namespace SDE_GUI
             }
             return false;
         }
+        bool OnSDEServerSwitched(bool newState)
+        {
+            if (newState && m_SDEServerThread == null)
+            {
+                m_SDEServerThread = new Thread(RunSDEServer);
+                m_SDEServerThread.Start();
+                return true;
+            }
+            else if (!newState && m_GDBServerThread != null)
+            {
+                m_SDEServerProcessAsync.Kill();
+                m_SDEServerThread.Join();
+                m_SDEServerThread = null;
+                return true;
+            }
+            return false;
+        }
         bool OnGDBServerSwitched(bool newState)
         {
             if (newState && m_GDBServerThread == null)
             {
                 m_GDBServerThread = new Thread(RunGDBServer);
                 m_GDBServerThread.Start();
-                m_GDBProcessAsync.InputLine("target remote 127.0.0.1:" + GDBPort.Text);
                 return true;
             }
             else if (!newState && m_GDBServerThread != null)
@@ -183,7 +201,6 @@ namespace SDE_GUI
             }
             return false;
         }
-
         bool OnGDBSwitched(bool newState)
         {
             if (newState && m_GDBThread == null)
@@ -205,20 +222,28 @@ namespace SDE_GUI
             }
             return false;
         }
-
+        private void RunSDEServer()
+        {
+            string fullPath = m_Settings.SDEPath;
+            string fullArgs = "-debug -- " + " " + m_Settings.CMDPath + " " + m_Settings.Args;
+            m_GDBServerProcessAsync.Run(fullPath, fullArgs, new DataReceivedEventHandler(ProcessOutputHandler));
+        }
         private void RunGDBServer()
         {
             string fullPath = m_Settings.GDBServerPath;
             string fullArgs = "127.0.0.1:" + "12000" + " " + m_Settings.CMDPath + " " + m_Settings.Args;
             m_GDBServerProcessAsync.Run(fullPath, fullArgs, new DataReceivedEventHandler(ProcessOutputHandler));
         }
-
         private void RunGDB()
         {
             string fullPath = m_Settings.GDBPath;
+            Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal,
+            new Action(delegate ()
+            {
+                m_GDBProcessAsync.InputLine("target remote 127.0.0.1:" + GDBPort.Text);
+            }));
             m_GDBProcessAsync.Run(fullPath, "", new DataReceivedEventHandler(ProcessGDBOutputHandler));
         }
-
         private void ProcessGDBOutputHandler(object sendingProcess, DataReceivedEventArgs outLine)
         {
             if (!String.IsNullOrEmpty(outLine.Data))

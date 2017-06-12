@@ -1,10 +1,5 @@
 ﻿using FrontEnd;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Media;
 
 namespace SDE_GUI
@@ -80,7 +75,7 @@ namespace SDE_GUI
         }
         private AsynchronousServer.DataReceiveCallback AcceptCallback(AsynchronousServer.State state)
         {
-            m_DebugConsole?.WriteLine("Connection accepted");
+            m_DebugConsole?.WriteLine("Connection accepted", Brushes.Gray);
             if (m_State != null && !m_Stopped) {
                 return null;
             }

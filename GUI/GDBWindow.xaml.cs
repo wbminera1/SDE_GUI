@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace SDE_GUI.GUI
 {
@@ -21,6 +12,7 @@ namespace SDE_GUI.GUI
     {
         public delegate void InputCompletedCallbackDelegate(string input);
 
+        private GDBRegistersWindow m_RegistersWindow;
         private Paragraph m_InputBlock = new Paragraph();
         public InputCompletedCallbackDelegate InputCompletedCallback { get; set; }
 
@@ -30,6 +22,8 @@ namespace SDE_GUI.GUI
             m_InputBlock.Inlines.Add(">");
             RichTextBox_Console.Document.Blocks.Clear();
             AddInputBlock();
+            //m_RegistersWindow = new GDBRegistersWindow();
+            //m_RegistersWindow.Show();
         }
 
         private void RemoveInputBlock()
@@ -85,6 +79,11 @@ namespace SDE_GUI.GUI
                 RichTextBox_Console.CaretPosition = RichTextBox_Console.CaretPosition.DocumentEnd;
                 e.Handled = true;
             }
+        }
+
+        private void GDBRAW_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
         }
     }
 }

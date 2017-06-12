@@ -27,16 +27,26 @@
         <Button x:Name="Command" Content="Command" Width="100" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Click="eCmd_Click" Margin="10,104,0,0"/>
         <TextBox x:Name="CommandText" HorizontalAlignment="Left" Height="30" Margin="115,104,0,0" TextWrapping="Wrap" Text="cmd" VerticalAlignment="Top" Width="125"/>
 
-        <local:ColorButton x:Name="GDBServer" Content="GDBServer" Width="100" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="14,261,0,0"/>
-        <TextBox x:Name="GDBServerPort" HorizontalAlignment="Left" Height="30" Margin="188,261,0,0" TextWrapping="Wrap" Text="12000" VerticalAlignment="Top" Width="49" RenderTransformOrigin="0.608,1.6"/>
+        <local:ColorButton x:Name="SDEServer" Content="SDEServer" Width="100" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="14,226,0,0"/>
+        <TextBox x:Name="SDEServerPort" HorizontalAlignment="Left" Height="30" Margin="188,227,0,0" TextWrapping="Wrap" Text="12000" VerticalAlignment="Top" Width="49"/>
+
+        <local:ColorButton x:Name="GDBServer" Content="GDBServer" Width="100" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="14,262,0,0"/>
+        <TextBox x:Name="GDBServerPort" HorizontalAlignment="Left" Height="30" Margin="188,261,0,0" TextWrapping="Wrap" Text="12000" VerticalAlignment="Top" Width="49"/>
 
         <local:ColorButton x:Name="Proxy" Content="Proxy" Width="100" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="14,296,0,0"/>
-        <TextBox x:Name="ProxyFrom" HorizontalAlignment="Left" Height="30" Margin="134,296,0,0" TextWrapping="Wrap" Text="11000" VerticalAlignment="Top" Width="49" RenderTransformOrigin="0.608,1.6"/>
-        <TextBox x:Name="ProxyTo" HorizontalAlignment="Left" Height="30" Margin="188,296,0,0" TextWrapping="Wrap" Text="12000" VerticalAlignment="Top" Width="49" RenderTransformOrigin="0.608,1.6"/>
+        <TextBox x:Name="ProxyFrom" HorizontalAlignment="Left" Height="30" Margin="134,296,0,0" TextWrapping="Wrap" Text="11000" VerticalAlignment="Top" Width="49"/>
+        <TextBox x:Name="ProxyTo" HorizontalAlignment="Left" Height="30" Margin="188,296,0,0" TextWrapping="Wrap" Text="12000" VerticalAlignment="Top" Width="49"/>
 
         <local:ColorButton x:Name="GDB" Content="GDB" Width="100" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="14,331,0,0"/>
-        <TextBox x:Name="GDBPort" HorizontalAlignment="Left" Height="30" Margin="134,331,0,0" TextWrapping="Wrap" Text="11000" VerticalAlignment="Top" Width="49" RenderTransformOrigin="0.608,1.6"/>
+        <TextBox x:Name="GDBPort" HorizontalAlignment="Left" Height="30" Margin="134,331,0,0" TextWrapping="Wrap" Text="11000" VerticalAlignment="Top" Width="49"/>
 
-        <RichTextBox x:Name="DebugConsoleText" HorizontalAlignment="Left" Height="199" Margin="5,512,0,0" VerticalAlignment="Top" Width="996"/>
+        <RichTextBox x:Name="DebugConsoleText" HorizontalAlignment="Left" Height="199" Margin="5,512,0,0" VerticalAlignment="Top" Width="996">
+            <RichTextBox.Resources>
+                <Style TargetType="{x:Type Paragraph}">
+                    <Setter Property="Margin" Value="0"/>
+                    <Setter Property="Padding" Value="0"/>
+                </Style>
+            </RichTextBox.Resources>
+        </RichTextBox>
     </Grid>
 </Window>

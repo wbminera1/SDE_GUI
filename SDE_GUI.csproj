@@ -82,12 +82,19 @@
     <Compile Include="GUI\GDBWindow.xaml.cs">
       <DependentUpon>GDBWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GUI\GDBRegistersWindow.xaml.cs">
+      <DependentUpon>GDBRegistersWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
     <Compile Include="Proxy.cs" />
     <Compile Include="Settings.cs" />
     <Page Include="GUI\GDBWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GUI\GDBRegistersWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -154,6 +161,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="temp.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Media;
 
 namespace FrontEnd
@@ -48,17 +45,25 @@ namespace FrontEnd
             m_ConsoleWindow.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal,
             new Action(delegate ()
             {
-                Brush oldBrush = m_ConsoleWindow.Foreground;
+                //Brush oldBrush = m_ConsoleWindow.Foreground;
                 if (brush != null)
                 {
-                    m_ConsoleWindow.Foreground = brush;
+                    if(brush != m_ConsoleWindow.Foreground)
+                    {
+                        if(m_ConsoleWindow.Document.Blocks.LastBlock != null)
+                        {
+                        }
+                        m_ConsoleWindow.Document.Blocks.Add(new Paragraph());
+                        m_ConsoleWindow.Document.Blocks.LastBlock.Foreground = brush;
+                    }
                 }
-                m_ConsoleWindow.AppendText(m_ConsoleStrCount + " " + str + "\n");
+                m_ConsoleWindow.Document.Blocks.LastBlock.ContentEnd.Paragraph.Inlines.Add(m_ConsoleStrCount + " " + str);
+//                m_ConsoleWindow.AppendText(m_ConsoleStrCount + " " + str + "\n");
                 m_ConsoleWindow.ScrollToEnd();
                 ++m_ConsoleStrCount;
                 if (brush != null)
                 {
-                    m_ConsoleWindow.Foreground = oldBrush;
+                    //m_ConsoleWindow.Foreground = oldBrush;
                 }
             }));
         }

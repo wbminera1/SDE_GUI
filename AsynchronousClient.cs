@@ -1,4 +1,3 @@
-using FrontEnd;
 using System;
 using System.Net;
 using System.Net.Sockets;
@@ -62,7 +61,14 @@ public class AsynchronousClient
             if(!m_Stopped)
             {
                 m_Stopped = true;
-                m_Socket.Shutdown(SocketShutdown.Both);
+                try
+                {
+                    m_Socket.Shutdown(SocketShutdown.Both);
+                }
+                catch(Exception)
+                {
+
+                }
             }
         }
     }
