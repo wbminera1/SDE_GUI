@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace SDE_GUI
 {
-    class Settings
+    public class Settings
     {
         const string FileName = @"\SDE_GUI.txt";
 

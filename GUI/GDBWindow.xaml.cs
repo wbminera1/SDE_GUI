@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
+using static SDE_GUI.GUIManager;
 
 namespace SDE_GUI.GUI
 {
@@ -10,9 +11,7 @@ namespace SDE_GUI.GUI
     /// </summary>
     public partial class GDBWindow : Window
     {
-        public delegate void InputCompletedCallbackDelegate(string input);
 
-        private GDBRegistersWindow m_RegistersWindow;
         private Paragraph m_InputBlock = new Paragraph();
         public InputCompletedCallbackDelegate InputCompletedCallback { get; set; }
 

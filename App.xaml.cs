@@ -13,5 +13,22 @@ namespace SDE_GUI
     /// </summary>
     public partial class App : Application
     {
+
+        App() 
+        {
+        }
+
+        protected override void OnStartup( StartupEventArgs e )
+        {
+            base.OnStartup(e);
+
+            if (!AppState.Instance.LoadSettings())
+            {
+                GUI.Settings win2 = new GUI.Settings();
+                win2.ShowDialog();
+                AppState.Instance.SaveSettings();
+            }
+
+        }
     }
 }

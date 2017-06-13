@@ -76,8 +76,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AppState.cs" />
     <Compile Include="AsynchronousServer.cs" />
+    <Compile Include="GDBManager.cs" />
     <Compile Include="GDBRemoteSerialProtocol.cs" />
+    <Compile Include="GUIManager.cs" />
     <Compile Include="GUI\ColorButton.cs" />
     <Compile Include="GUI\GDBWindow.xaml.cs">
       <DependentUpon>GDBWindow.xaml</DependentUpon>

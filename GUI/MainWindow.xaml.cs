@@ -12,19 +12,9 @@ namespace SDE_GUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        //private int m_Port = -1;
-        private ProcessAsync m_SDEServerProcessAsync = new ProcessAsync();
-        private ProcessAsync m_GDBServerProcessAsync = new ProcessAsync();
-        private ProcessAsync m_GDBProcessAsync = new ProcessAsync();
         private AsynchronousClient m_Client = new AsynchronousClient();
-        private Settings m_Settings = new Settings();
         private GDBRemoteSerialProtocol m_GDBRSP = new GDBRemoteSerialProtocol();
         private DebugConsole m_DebugConsole;
-        private Thread m_SDEServerThread;
-        private Thread m_GDBServerThread;
-        private Thread m_GDBThread;
-        private Proxy m_Proxy;
-        private GUI.GDBWindow m_GDBWindow;
 
         public MainWindow()
         {
@@ -33,17 +23,12 @@ namespace SDE_GUI
             m_DebugConsole = new DebugConsole(DebugConsoleText);
             m_DebugConsole.WriteLine("Started");
 
-            if (!Settings.Load(out m_Settings))
-            {
-                GUI.Settings win2 = new GUI.Settings();
-                win2.ShowDialog();
-                m_Settings.Save();
-            }
+            AppState.Instance.GDB.SetDebugConsole(m_DebugConsole);
+            Proxy.OnSwitched = AppState.Instance.GDB.OnProxySwitched;
+            GDBServer.OnSwitched = AppState.Instance.GDB.OnGDBServerSwitched;
+            SDEServer.OnSwitched = AppState.Instance.GDB.OnSDEServerSwitched;
+            GDB.OnSwitched = AppState.Instance.GDB.OnGDBSwitched;
 
-            Proxy.OnSwitched = OnProxySwitched;
-            GDBServer.OnSwitched = OnGDBServerSwitched;
-            SDEServer.OnSwitched = OnSDEServerSwitched;
-            GDB.OnSwitched = OnGDBSwitched;
         }
         protected override void OnClosing(CancelEventArgs e)
         {
@@ -53,36 +38,18 @@ namespace SDE_GUI
         {
             string fullPath = "";
             string fullArgs = "";
-            if (m_Settings.Selection == 0)
+            Settings settings = AppState.Instance.GetSettings();
+            if (settings.Selection == 0)
             {
-                fullPath = m_Settings.SDEPath;
-                fullArgs = "-debug -- " + m_Settings.CMDPath + " " + m_Settings.Args;
+                fullPath = settings.SDEPath;
+                fullArgs = "-debug -- " + settings.CMDPath + " " + settings.Args;
             }
-            else if (m_Settings.Selection == 1)
+            else if (settings.Selection == 1)
             {
-                fullPath = m_Settings.GDBServerPath;
-                fullArgs = "127.0.0.1:10000 " + m_Settings.CMDPath + " " + m_Settings.Args;
+                fullPath = settings.GDBServerPath;
+                fullArgs = "127.0.0.1:10000 " + settings.CMDPath + " " + settings.Args;
             }
             //m_ProcessAsync.Run(fullPath, fullArgs, new DataReceivedEventHandler(ProcessOutputHandler));
-        }
-        private void ProcessOutputHandler(object sendingProcess, DataReceivedEventArgs outLine)
-        {
-            if (!String.IsNullOrEmpty(outLine.Data))
-            {
-                m_DebugConsole.WriteLine(outLine.Data);
-                if(outLine.Data.Contains("on port")) {
-                    int portIdx = outLine.Data.IndexOfAny("0123456789".ToCharArray());
-                    if (portIdx >= 0)
-                    {
-                        string portStr = outLine.Data.Substring(portIdx);
-                        Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal,
-                        new Action(delegate ()
-                        {
-                            ProxyTo.Text = portStr;
-                        }));
-                    }
-                }
-            }
         }
         private void ConnectCallback(bool success)
         {
@@ -150,110 +117,30 @@ namespace SDE_GUI
             byte[] cmd = GDBRemoteSerialProtocol.MakeCommand(cmdTxt);
             m_Client.Send(cmd, cmd.Length);
         }
-        bool OnProxySwitched(bool newState)
+
+        private void SDEServerPort_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
-            if (newState && m_Proxy == null)
-            {
-                m_Proxy = new Proxy("127.0.0.1", Int32.Parse(ProxyFrom.Text), "127.0.0.1", Int32.Parse(ProxyTo.Text));
-                m_Proxy.SetDebugOutput(m_DebugConsole);
-                m_Proxy.Start();
-                return true;
-            }
-            if (!newState && m_Proxy != null)
-            {
-                m_Proxy.Stop();
-                m_Proxy = null;
-                return true;
-            }
-            return false;
+
         }
-        bool OnSDEServerSwitched(bool newState)
+
+        private void GDBServerPort_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
-            if (newState && m_SDEServerThread == null)
-            {
-                m_SDEServerThread = new Thread(RunSDEServer);
-                m_SDEServerThread.Start();
-                return true;
-            }
-            else if (!newState && m_GDBServerThread != null)
-            {
-                m_SDEServerProcessAsync.Kill();
-                m_SDEServerThread.Join();
-                m_SDEServerThread = null;
-                return true;
-            }
-            return false;
+            AppState.Instance.GDB.GDBServerPort = Int32.Parse(GDBServerPort.Text);
         }
-        bool OnGDBServerSwitched(bool newState)
+
+        private void ProxyFrom_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
-            if (newState && m_GDBServerThread == null)
-            {
-                m_GDBServerThread = new Thread(RunGDBServer);
-                m_GDBServerThread.Start();
-                return true;
-            }
-            else if (!newState && m_GDBServerThread != null)
-            {
-                m_GDBServerProcessAsync.Kill();
-                m_GDBServerThread.Join();
-                m_GDBServerThread = null;
-                return true;
-            }
-            return false;
+            AppState.Instance.GDB.ProxyPortFrom = Int32.Parse(ProxyFrom.Text);
         }
-        bool OnGDBSwitched(bool newState)
+
+        private void ProxyTo_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
-            if (newState && m_GDBThread == null)
-            {
-                m_GDBThread = new Thread(RunGDB);
-                m_GDBThread.Start();
-                m_GDBWindow = new GUI.GDBWindow();
-                m_GDBWindow.InputCompletedCallback = OnGDBInputCompleted;
-                m_GDBWindow.Show();
-                return true;
-            }
-            else if (!newState && m_GDBThread != null)
-            {
-                m_GDBProcessAsync.Kill();
-                m_GDBThread.Join();
-                m_GDBThread = null;
-                m_GDBWindow.Close();
-                return true;
-            }
-            return false;
+            AppState.Instance.GDB.ProxyPortTo = Int32.Parse(ProxyTo.Text);
         }
-        private void RunSDEServer()
+
+        private void GDBPort_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
-            string fullPath = m_Settings.SDEPath;
-            string fullArgs = "-debug -- " + " " + m_Settings.CMDPath + " " + m_Settings.Args;
-            m_GDBServerProcessAsync.Run(fullPath, fullArgs, new DataReceivedEventHandler(ProcessOutputHandler));
-        }
-        private void RunGDBServer()
-        {
-            string fullPath = m_Settings.GDBServerPath;
-            string fullArgs = "127.0.0.1:" + "12000" + " " + m_Settings.CMDPath + " " + m_Settings.Args;
-            m_GDBServerProcessAsync.Run(fullPath, fullArgs, new DataReceivedEventHandler(ProcessOutputHandler));
-        }
-        private void RunGDB()
-        {
-            string fullPath = m_Settings.GDBPath;
-            Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal,
-            new Action(delegate ()
-            {
-                m_GDBProcessAsync.InputLine("target remote 127.0.0.1:" + GDBPort.Text);
-            }));
-            m_GDBProcessAsync.Run(fullPath, "", new DataReceivedEventHandler(ProcessGDBOutputHandler));
-        }
-        private void ProcessGDBOutputHandler(object sendingProcess, DataReceivedEventArgs outLine)
-        {
-            if (!String.IsNullOrEmpty(outLine.Data))
-            {
-                m_GDBWindow?.AddTextToConsole(outLine.Data);
-            }
-        }
-        private void OnGDBInputCompleted(string input)
-        {
-            m_GDBProcessAsync.InputLine(input);
+            AppState.Instance.GDB.GDBPort = Int32.Parse(GDBPort.Text);
         }
     }
 } // namespace SDE_GUI
